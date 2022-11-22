@@ -188,7 +188,9 @@
 					<error-message name="form" class="from__alert"></error-message>
 					<error-message name="topping" class="from__alert"></error-message>
 				</span>
-						<span class="z-index-1 fs_40 cake_pink text-end mt-5" id="cost">{{ Cost }}₽</span>
+						{% verbatim %}
+							<span class="z-index-1 fs_40 cake_pink text-end mt-5" id="cost">{{ Cost }}₽</span>
+						{% endverbatim %}
 					</div>
 					<div class="d-flex align-items-center flex-wrap mb-3">
 						<span class="me-3 fs_40 cake_blue">Количество уровней</span>
