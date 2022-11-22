@@ -15,7 +15,6 @@
 	<title>Тортики</title>
 </head>
 <body>
-{% verbatim %} <!--Навесил из-за конфликта шаблонных тегов, надо что-то с этим сделать-->
 <header class="navbar navbar-expand-xl navbar-light fixed-top bg-white py-4">
 	<nav class="container">
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,15 +87,18 @@
 								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 								<path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
 							</svg>
-							{{Step === 'Number' ? 'Введите номер' : 'Введите код'}}</error-message></small>
+							{% verbatim %}
+								{{Step === 'Number' ? 'Введите номер' : 'Введите код'}}</error-message></small>
+							{% endverbatim %}
 						<error-message name="phone_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
 						<error-message name="code_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
 					</v-form>
-
-					<div class="modal-footer d-flex flex-column justify-content-between align-items-center text-center border-0 mx-5">
-						<p class="fs_12 cake_grey">{{Step === `Number` ? `Нажимая на кнопку, вы соглашаетесь на обработку персональных данных в соответствии с политикой конфиденциальности` : Step === 'Code' ? `Осталось времени: 05:00` : ``}}</p>
-						<a href="#" v-if="Step === `Code`" @click.prevent="ToRegStep1" class="text-decoration-none cake_pink fs_12">изменить данные</a>
-					</div>
+					{% verbatim %}
+						<div class="modal-footer d-flex flex-column justify-content-between align-items-center text-center border-0 mx-5">
+							<p class="fs_12 cake_grey">{{Step === `Number` ? `Нажимая на кнопку, вы соглашаетесь на обработку персональных данных в соответствии с политикой конфиденциальности` : Step === 'Code' ? `Осталось времени: 05:00` : ``}}</p>
+							<a href="#" v-if="Step === `Code`" @click.prevent="ToRegStep1" class="text-decoration-none cake_pink fs_12">изменить данные</a>
+						</div>
+					{% endverbatim %}
 				</div>
 			</div>
 		</aside>
@@ -345,20 +347,22 @@
 									<error-message name="email_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
 								</div>
 							</div>
-							<div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-end">
-								<div class="cake__card p-4 position-relative cake_grey">
-									<span class="cake__badge rounded-pill">?</span>
-									<span>Количество уровней: {{ DATA.Levels[Levels] }}</span>
-									<span>Форма уровней: {{ DATA.Forms[Form] }}</span>
-									<p>Топинг: {{ DATA.Toppings[Topping] }}</p>
-									<span>Дополнительно:</span>
-									<ul>
-										<li>Ягоды: {{ DATA.Berries[Berries] }}</li>
-										<li>Декор: {{ DATA.Decors[Decor] }}</li>
-									</ul>
-									<span>{{ Words === '' ? 'Без надписи' : Words }}</span>
+							{% verbatim %}
+								<div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-end">
+									<div class="cake__card p-4 position-relative cake_grey">
+										<span class="cake__badge rounded-pill">?</span>
+										<span>Количество уровней: {{ DATA.Levels[Levels] }}</span>
+										<span>Форма уровней: {{ DATA.Forms[Form] }}</span>
+										<p>Топинг: {{ DATA.Toppings[Topping] }}</p>
+										<span>Дополнительно:</span>
+										<ul>
+											<li>Ягоды: {{ DATA.Berries[Berries] }}</li>
+											<li>Декор: {{ DATA.Decors[Decor] }}</li>
+										</ul>
+										<span>{{ Words === '' ? 'Без надписи' : Words }}</span>
+									</div>
 								</div>
-							</div>
+							{% endverbatim %}
 						</div>
 						<div class="d-flex flex-column position-relative pb-4">
 							<h2 class="fs_40 cake_pink">Данные для доставки</h2>
@@ -437,5 +441,4 @@
 <script src='{% static "index.js" %}'></script>
 <script src='{% static "registration.js" %}'></script>
 </body>
-{% endverbatim %}
 </html>
