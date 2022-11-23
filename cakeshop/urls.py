@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from cakewebsite import views
+from cakeshop import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
