@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
+from .models import User
+
+
+def register_user(request):
+    User.objects.create(phone=request.GET['REG'])
+    return redirect('lk')
