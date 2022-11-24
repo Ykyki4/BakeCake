@@ -74,7 +74,7 @@
 				<input v-model="Email" name="EMAIL">
 				<button type="submit" ref="HiddenFormSubmit">Apply Changes</button>
 			</form>
-			<v-form :validation-schema="Schema" @submit="ApplyChanges">
+			<form method="post" action="{% url 'bakery:user_reg' %}">{% csrf_token %}
 				<div class="d-flex w-100 justify-content-center justify-content-xxl-between align-items-center">
 					<h1 class="font_Gogh fs_40 cake_blue">Личный кабинет</h1>
 					<button v-if="!Edit" @click="Edit = true" class="btn shadow-none align-self-center">
@@ -101,21 +101,40 @@
 						</li>
 					</ul>
 					<ul class="list-group">
-						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Name" type="text" name="name_format" id="name" :readonly="!Edit" class="form-control my-2 i cake__textinput"></v-field>
-							<error-message name="name_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+						<li v-if="Edit" class="list-group-item border-0 py-61 position-relative">
+							<input name="name" id="name_input" class="form-control my-2 i cake__textinput" value="{{user.name}}"></input>
 						</li>
-						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Phone" type="text" name="phone_format" id="phone" :readonly="!Edit" class="form-control my-2 cake__textinput"></v-field>
-							<error-message name="phone_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+						<li v-if="Edit" class="list-group-item border-0 py-61 position-relative">
+							<input name="phone" id="phone_input" class="form-control my-2 i cake__textinput" value="{{user.phone}}"></input>
 						</li>
-						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Email" type="text" name="email_format" id="email" :readonly="!Edit" class="form-control my-2 cake__textinput"></v-field>
-							<error-message name="email_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+						<li v-if="Edit" class="list-group-item border-0 py-61 position-relative">
+							<input name="email" id="email_input" class="form-control my-2 i cake__textinput" value="{{user.email}}"></input>
+						</li>
+
+						<li v-if="!Edit" class="list-group-item border-0 py-61 position-relative">
+							<div id="name" class="form-control my-2 i cake__textinput">
+								{% if not user.name %}
+									Имя не указано
+								{% else %}
+									{{ user.name }}
+								{% endif %}
+							</div>
+						</li>
+						<li v-if="!Edit" class="list-group-item border-0 py-61 position-relative">
+							<div id="phone" class="form-control my-2 i cake__textinput"> {{user.phone}} </div>
+						</li>
+						<li v-if="!Edit" class="list-group-item border-0 py-61 position-relative">
+							<div id="email" class="form-control my-2 i cake__textinput">
+								{% if not user.email %}
+									Почта не указана
+								{% else %}
+									{{ user.email }}
+								{% endif %}
+							</div>
 						</li>
 					</ul>
 				</div>
-			</v-form>
+			</form>
 			<h2 class="fs_40 cake_pink mt-5">Мои заказы</h2>
 			<span class="cake_grey">У вас еще нет заказов.</span>
 			<p class="cake_grey">Вы можете добавить торт из <a href="./index.html#step2" class="text-decoration-none cake_pink">Каталога</a> или <a href="./index.html#step3" class="text-decoration-none cake_pink">Создать свой</a>.</p>
