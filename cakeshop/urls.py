@@ -25,4 +25,5 @@ urlpatterns = [
     path('', render, kwargs={'template_name': 'index.html'}, name='start_page'),
     path('lk/', render, kwargs={'template_name': 'lk.html'}, name='lk'),
     path('register/', include('bakery.urls'), name='reg'),
+    path('api-auth/', include('rest_framework.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
