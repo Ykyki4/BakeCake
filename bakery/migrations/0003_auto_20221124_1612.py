@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='ordercake',
             name='cost',
-            field=models.PositiveIntegerField(default='', validators=[django.core.validators.MinValueValidator(0)], verbose_name='Стоимость торта'),
+            field=models.PositiveIntegerField(default=1, validators=[django.core.validators.MinValueValidator(0)], verbose_name='Стоимость торта'),
             preserve_default=False,
         ),
         migrations.AlterField(
