@@ -8,38 +8,24 @@ from .models import User, Order, OrderCake
 
 
 class UserSerializer(ModelSerializer):
-    NAME = CharField(source='name')
-    PHONE = PhoneNumberField(source='phone')
-    EMAIL = EmailField(source='email')
 
     class Meta:
         model = User
-        fields = ['NAME', 'PHONE', 'EMAIL']
+        fields = ['name', 'phone', 'email', ]
 
 
 class OrderSerializer(ModelSerializer):
-    ADDRESS = CharField(source='address')
-    DATE = DateField(source='date')
-    TIME = TimeField(source='time')
-    DELIVCOMMENTS = CharField(source='delivcomment', required=False, allow_blank=True)
 
     class Meta:
         model = Order
-        fields = ['ADDRESS', 'DATE', 'TIME', 'DELIVCOMMENTS']
+        fields = ['address', 'date', 'time', 'delivcomments', ]
 
 
 class CakeSerializer(ModelSerializer):
-    LEVELS = CharField(source='levels')
-    FORM = CharField(source='form')
-    TOPPING = CharField(source='topping')
-    BERRIES = CharField(source='berries')
-    DECOR = CharField(source='decor')
-    WORDS = CharField(source='words', required=False, allow_blank=True)
-    COMMENT = CharField(source='comment', required=False, allow_blank=True)
 
     class Meta:
         model = OrderCake
-        fields = ['LEVELS', 'FORM', 'TOPPING', 'BERRIES', 'DECOR', 'WORDS', 'COMMENT',]
+        fields = ['levels', 'form', 'topping', 'berries', 'decor', 'words', 'comment', 'cost', ]
 
 
 def register_user(request):
@@ -49,11 +35,12 @@ def register_user(request):
 
 @api_view(['POST'])
 def register_order(request):
+    print(request.data)
     cake_serializer = CakeSerializer(data=request.data)
     cake_serializer.is_valid(raise_exception=True)
     order_serializer = OrderSerializer(data=request.data)
     order_serializer.is_valid(raise_exception=True)
     user_serializer = UserSerializer(data=request.data)
     user_serializer.is_valid()
-    return redirect('start_page')
-    # return Response()
+    # return redirect('start_page')
+    return Response()
