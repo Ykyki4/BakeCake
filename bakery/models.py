@@ -10,7 +10,8 @@ class User(models.Model):
 
 class Order(models.Model):
     address = models.CharField('Адрес', max_length=150)
-    date_time = models.DateTimeField('Время и день доставки')
+    date = models.DateField('Дата доставки')
+    time = models.TimeField('Время доставки')
     delivcomment = models.TextField('Комментарий к доставке', blank=True)
     user = models.ForeignKey(
         User,
