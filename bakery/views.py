@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 from django.db import transaction
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from phonenumber_field.serializerfields import PhoneNumberField
-from rest_framework.serializers import Serializer, ModelSerializer, CharField, EmailField, DateField, TimeField
+from rest_framework.serializers import ModelSerializer
 
 from .models import User, Order, OrderCake
 
@@ -49,6 +48,7 @@ def profile(request, phone):
     return render(request, 'lk.html', {'user': user})
 
 
+@transaction.atomic
 @api_view(['POST'])
 def register_order(request):
     request_payload = request.data
