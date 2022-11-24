@@ -314,6 +314,7 @@
 					<input v-model="Dates" type="date" name="date">
 					<input v-model="Time" type="time" name="time">
 					<input v-model="DelivComments" type="text" name="delivcomment">
+					{% csrf_token %}
 					<button type="submit" ref="HiddenFormSubmit" formaction="{% url 'bakery:register_order' %}" formmethod="post">Submit Order</button>
 				</form>
 				<v-form :validation-schema="schema2" @submit="this.$refs.HiddenFormSubmit.click()">
