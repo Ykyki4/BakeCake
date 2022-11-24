@@ -28,4 +28,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('lk/', profile, name='lk'),
     path('register/', include('bakery.urls'), name='reg'),
+    path('api-auth/', include('rest_framework.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
