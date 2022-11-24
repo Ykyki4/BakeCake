@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -12,7 +13,7 @@ class Order(models.Model):
     address = models.CharField('Адрес', max_length=150)
     date = models.DateField('Дата доставки')
     time = models.TimeField('Время доставки')
-    delivcomment = models.TextField('Комментарий к доставке', blank=True)
+    delivcomments = models.TextField('Комментарий к доставке', blank=True)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -25,7 +26,7 @@ class OrderCake(models.Model):
     LEVELS = [
         ('1', '1'),
         ('2', '2'),
-        ('2', '3'),
+        ('3', '3'),
     ]
     FORMS = [
         ('1', 'Круг'),
@@ -90,6 +91,8 @@ class OrderCake(models.Model):
 
     words = models.CharField('Надпись на торте', max_length=100, blank=True)
     comment = models.TextField('Комментарий', blank=True)
+
+    cost = models.PositiveIntegerField('Стоимость торта', validators=[MinValueValidator(0)])
 
     order = models.ForeignKey(
         Order,
