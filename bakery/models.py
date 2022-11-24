@@ -8,6 +8,13 @@ class User(models.Model):
     phone = PhoneNumberField(verbose_name='Номер телефона', unique=True)
     email = models.EmailField(verbose_name='Электронная почта', blank=True)
 
+    class Meta:
+        verbose_name = 'пользователь'
+        verbose_name_plural = 'пользователи'
+
+    def __str__(self):
+        return self.name
+
 
 class Order(models.Model):
     address = models.CharField('Адрес', max_length=150)
@@ -20,6 +27,13 @@ class Order(models.Model):
         verbose_name='Пользователь совершивший заказ',
         related_name='orders'
     )
+
+    class Meta:
+        verbose_name = 'заказ'
+        verbose_name_plural = 'заказы'
+
+    def __str__(self):
+        return f'{self.id} {self.user.name} {self.address}'
 
 
 class OrderCake(models.Model):
@@ -100,3 +114,10 @@ class OrderCake(models.Model):
         verbose_name='Заказ',
         related_name='cake'
     )
+
+    class Meta:
+        verbose_name = 'торт'
+        verbose_name_plural = 'торты'
+
+    def __str__(self):
+        return f'Торт для {self.order.user.name}'
