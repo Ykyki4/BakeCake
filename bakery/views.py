@@ -59,9 +59,11 @@ def register_order(request):
     user_serializer = UserSerializer(data=request_payload)
     user_serializer.is_valid(raise_exception=True)
     user, _ = User.objects.get_or_create(
-        name=user_serializer.validated_data['name'],
         phone=user_serializer.validated_data['phone'],
-        email=user_serializer.validated_data['email'],
+        defaults={
+            'name': user_serializer.validated_data['name'],
+            'email': user_serializer.validated_data['email'],
+        },
     )
     order, _ = Order.objects.get_or_create(
         address=order_serializer.validated_data['address'],
