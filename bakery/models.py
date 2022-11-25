@@ -1,19 +1,7 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
-
-
-class User(models.Model):
-    name = models.CharField('Имя', max_length=25, blank=True)
-    phone = PhoneNumberField(verbose_name='Номер телефона', unique=True)
-    email = models.EmailField(verbose_name='Электронная почта', blank=True)
-
-    class Meta:
-        verbose_name = 'пользователь'
-        verbose_name_plural = 'пользователи'
-
-    def __str__(self):
-        return self.name
 
 
 class Order(models.Model):

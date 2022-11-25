@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 
+from .forms import AuthForm
 from .models import User, Order, OrderCake
 
 
@@ -28,6 +29,12 @@ class CakeSerializer(ModelSerializer):
         fields = ['levels', 'form', 'topping', 'berries', 'decor', 'words', 'comment', 'cost', ]
 
 
+def index(request):
+    auth_form = AuthForm
+
+    return render(request, 'index.html', {'auth_form': auth_form})
+
+
 def register_user(request):
     if 'name' in request.POST or 'email' in request.POST:
         User.objects.update_or_create(
@@ -38,7 +45,10 @@ def register_user(request):
             },
         )
     else:
-        User.objects.get_or_create(phone=request.POST['phone'])
+        if request.POST['code'] == '1234':
+            User.objects.get_or_create(phone=request.POST['phone'])
+        else:
+            return redirect('start_page')
     return redirect('lk', request.POST['phone'])
 
 

@@ -19,14 +19,13 @@ from django.contrib import admin
 from django.urls import include, path
 from django.shortcuts import render
 
-from bakery.views import profile
+from bakery.views import profile, index
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', render, kwargs={'template_name': 'index.html'}, name='start_page'),
+    path('', index, name='start_page'),
     path('api-auth/', include('rest_framework.urls')),
     path('lk/<phone>/', profile, name='lk'),
     path('register/', include('bakery.urls'), name='reg'),
-    path('api-auth/', include('rest_framework.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

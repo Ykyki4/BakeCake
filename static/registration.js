@@ -33,6 +33,9 @@ Vue.createApp({
 
                         return '⚠ Формат кода нарушен';
                     }
+                    if ( value !== '1234') {
+                        return '⚠ Неверный код';
+                    }
                     return true;
                 }
             },
@@ -44,7 +47,6 @@ Vue.createApp({
     methods: {
         RegSubmit() {
             if (this.Step === 'Number') {
-                this.$refs.HiddenFormSubmitReg.click()
                 this.Step = 'Code'
                 this.EnteredNumber = this.RegInput
                 this.RegInput = ''
