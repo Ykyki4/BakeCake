@@ -3,6 +3,11 @@ from django.contrib import admin
 from .models import User, Order, OrderCake
 
 
+class CakeInline(admin.TabularInline):
+    model = Order
+    raw_id_fields = ('cake',)
+
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     pass
@@ -15,4 +20,4 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(OrderCake)
 class OrderCakeAdmin(admin.ModelAdmin):
-    pass
+    inlines = (CakeInline,)
