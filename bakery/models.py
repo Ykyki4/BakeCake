@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.core.validators import MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -112,7 +113,7 @@ class OrderCake(models.Model):
         Order,
         on_delete=models.CASCADE,
         verbose_name='Заказ',
-        related_name='cake'
+        related_name='cakes'
     )
 
     class Meta:
@@ -121,3 +122,38 @@ class OrderCake(models.Model):
 
     def __str__(self):
         return f'Торт для {self.order.user.name}'
+
+
+class Payment(models.Model):
+    WAITING = 'waiting'
+    SUCCEEDED = 'succeeded'
+    CANCELED = 'canceled'
+    STATUSES = [
+        (WAITING, 'Ожидает оплаты'),
+        (SUCCEEDED, 'Оплачен'),
+        (CANCELED, 'Платеж отклонен'),
+    ]
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Заказ',
+        related_name='payments',
+    )
+    created_at = models.DateTimeField(
+        'Создан в',
+        default=timezone.now(),
+    )
+    status = models.CharField(
+        'Статус заказа',
+        max_length=20,
+        choices=STATUSES,
+        default=WAITING,
+        db_index=True,
+    )
+
+    class Meta:
+        verbose_name = 'платеж'
+        verbose_name_plural = 'платежи'
+
+    def __str__(self):
+        return f'Платеж по заказу {self.order.id}'
