@@ -11,23 +11,23 @@ class UserManager(BaseUserManager):
 
     def _create_user(self, phone, password, **extra_fields):
         if not phone:
-            raise ValueError('The given email must be set')
+            raise ValueError('Missing phone')
         user = self.model(phone=phone, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, phone, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(phone, password, **extra_fields)
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, phone, password, **extra_fields):
         extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(email, password, is_staff=True, **extra_fields)
+        return self._create_user(phone, password, is_staff=True, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return self.name
+        return str(self.phone)
 
 
 class Order(models.Model):
@@ -147,7 +147,7 @@ class OrderCake(models.Model):
         Order,
         on_delete=models.CASCADE,
         verbose_name='Заказ',
-        related_name='cakes'
+        related_name='cake'
     )
 
     class Meta:

@@ -41,19 +41,18 @@ def index(request):
 
 def register_user(request):
     if 'name' in request.POST or 'email' in request.POST:
-        User.objects.update_or_create(
-            phone=request.POST['phone'],
-            defaults={
-                'name': request.POST.get('name'),
-                'email': request.POST.get('email'),
-            },
-        )
+        user = request.user
+        user.name = request.POST.get('name')
+        user.email = request.POST.get('email')
+        user.save()
     else:
         if request.POST['code'] == '1234':
-            user = User.objects.get_or_create(username=request.POST['phone'], password=request.POST['code'])
-            print(user)
-            user = authenticate(request, username=request.POST['phone'], password=request.POST['code'])
-            print(user)
+            try:
+                User.objects.get(phone=request.POST['phone'])
+            except User.DoesNotExist:
+                User.objects.create_user(phone=request.POST['phone'], password=request.POST['code'])
+
+            user = authenticate(request, phone=request.POST['phone'], password=request.POST['code'])
             if user is not None:
                 login(request, user)
         else:
@@ -68,8 +67,9 @@ def logout_view(request):
 
 
 def profile(request):
+    orders = request.user.orders.all()
 
-    return render(request, 'lk.html')
+    return render(request, 'lk.html', {'orders': orders})
 
 
 @transaction.atomic

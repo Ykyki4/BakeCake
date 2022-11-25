@@ -1,11 +1,16 @@
 from django.contrib import admin
 
-from .models import Order, OrderCake, Payment
+from .models import User, Order, OrderCake, Payment
 
 
 class CakeInline(admin.TabularInline):
     model = OrderCake
     extra = 0
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(Order)

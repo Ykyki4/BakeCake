@@ -20,7 +20,7 @@
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand" href="#">
+		<a class="navbar-brand" href="{% url 'start_page' %}">
 			<img src='{% static "img/Logo.svg" %}' alt="CakeBake">
 		</a>
 		<div class="collapse navbar-collapse justify-content-end" id="navbar">
@@ -51,10 +51,10 @@
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8">1</span>
 					</a>
 					<a class="nav-link fw-lighter cake_grey fs_12" href="#">
-						{% if not user.username %}
+						{% if not user.name %}
 							Имя не указано
 						{% else %}
-							{{ user.username }}
+							{{ user.name }}
 						{% endif %}
 					</a>
 				</li>
@@ -136,8 +136,46 @@
 				</div>
 			</form>
 			<h2 class="fs_40 cake_pink mt-5">Мои заказы</h2>
-			<span class="cake_grey">У вас еще нет заказов.</span>
-			<p class="cake_grey">Вы можете добавить торт из <a href="./index.html#step2" class="text-decoration-none cake_pink">Каталога</a> или <a href="./index.html#step3" class="text-decoration-none cake_pink">Создать свой</a>.</p>
+
+			{% if not orders %}
+				<span class="cake_grey">У вас еще нет заказов.</span>
+				<p class="cake_grey">Вы можете добавить торт из <a href="./index.html#step2" class="text-decoration-none cake_pink">Каталога</a> или <a href="./index.html#step3" class="text-decoration-none cake_pink">Создать свой</a>.</p>
+			{% else %}
+				{% for order in orders %}
+					<section class="my-2">
+						<span class="cake_blue lk__order d-flex" data-bs-toggle="modal" data-bs-target="#OrderModal2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+							</svg>
+							<span class="ms-1">#{{order.id}}</span>
+							{{order.cake}}
+						</span>
+						<aside class="modal fade" id="OrderModal2" tabindex="-1" aria-labelledby="ModalLabel2" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title cake_pink" id="ModalLabel2">#{{order.id}}</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<span class="cake_blue">Уровней: {{order.cake.levels}}</span><br>
+										<span class="cake_blue">Форма: {{order.cake.form}}</span><br>
+										<span class="cake_blue">Топпинг: {{order.cake.topping}}</span><br>
+										<span class="cake_blue">Ягоды: {{order.cake.berries}}</span><br>
+										<span class="cake_blue">Декор: {{order.cake.decor}}</span><br>
+										<span class="cake_blue">{{order.cake.words}}</span><br>
+										<span class="cake_pink">Цена: {{order.cake.price}}₽</span>
+									</div>
+									<div class="modal-footer d-flex justify-content-between">
+										<span class="cake_blue d-flex">Статус: В доставке</span>
+										<span class="cake_blue d-flex align-items-center">Время доставки: ?</span>
+									</div>
+								</div>
+							</div>
+						</aside>
+					</section>
+				{% endfor %}
+			{% endif %}
 			<span class="cake_grey">Есть вопросы?</span>
 			<span class="cake_grey">Воспользуйтесь нашим <a href="https://vk.com/devmanorg" class="text-decoration-none cake_pink">чат-ботом</a>.</span>
 			<a href="{% url 'logout' %}" class="btn text-white rounded-pill align-self-end px-5 mt-3 shadow-none cake__button cake__bg_pink" >Выйти</a>
