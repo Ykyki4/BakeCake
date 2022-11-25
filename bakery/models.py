@@ -1,8 +1,54 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
+
+
+class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, phone, password, **extra_fields):
+        if not phone:
+            raise ValueError('The given email must be set')
+        user = self.model(phone=phone, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, password, **extra_fields)
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(email, password, is_staff=True, **extra_fields)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField('email', blank=True)
+    name = models.CharField('Имя', max_length=100, blank=True)
+    phone = PhoneNumberField(verbose_name='Номер телефона', unique=True)
+    date_joined = models.DateTimeField('Дата регистрации', auto_now_add=True)
+    is_active = models.BooleanField('Активный', default=True)
+    is_staff = models.BooleanField('Менеджер', default=False)
+
+    USERNAME_FIELD = 'phone'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+    def __str__(self):
+        return self.name
 
 
 class Order(models.Model):
