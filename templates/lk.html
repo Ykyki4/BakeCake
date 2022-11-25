@@ -51,10 +51,10 @@
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8">1</span>
 					</a>
 					<a class="nav-link fw-lighter cake_grey fs_12" href="#">
-						{% if not user.name %}
+						{% if not user.username %}
 							Имя не указано
 						{% else %}
-							{{ user.name }}
+							{{ user.username }}
 						{% endif %}
 					</a>
 				</li>
@@ -121,7 +121,7 @@
 							</div>
 						</li>
 						<li v-if="!Edit" class="list-group-item border-0 py-61 position-relative">
-							<div id="phone" class="form-control my-2 i cake__textinput"> {{user.phone}} </div>
+							<div id="phone" class="form-control my-2 i cake__textinput"> {{user}} </div>
 						</li>
 						<li v-if="!Edit" class="list-group-item border-0 py-61 position-relative">
 							<div id="email" class="form-control my-2 i cake__textinput">
@@ -140,7 +140,7 @@
 			<p class="cake_grey">Вы можете добавить торт из <a href="./index.html#step2" class="text-decoration-none cake_pink">Каталога</a> или <a href="./index.html#step3" class="text-decoration-none cake_pink">Создать свой</a>.</p>
 			<span class="cake_grey">Есть вопросы?</span>
 			<span class="cake_grey">Воспользуйтесь нашим <a href="https://vk.com/devmanorg" class="text-decoration-none cake_pink">чат-ботом</a>.</span>
-			<button class="btn text-white rounded-pill align-self-end px-5 mt-3 shadow-none cake__button cake__bg_pink">Выйти</button>
+			<a href="{% url 'logout' %}" class="btn text-white rounded-pill align-self-end px-5 mt-3 shadow-none cake__button cake__bg_pink" >Выйти</a>
 		</div>
 	</div>
 </div>

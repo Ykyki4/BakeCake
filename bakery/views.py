@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from phonenumber_field.modelfields import PhoneNumberField
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
+from django.contrib.auth import authenticate, login, logout
 
 
 from .models import User, Order, OrderCake, Payment
@@ -49,16 +50,26 @@ def register_user(request):
         )
     else:
         if request.POST['code'] == '1234':
-            User.objects.get_or_create(phone=request.POST['phone'])
+            user = User.objects.get_or_create(username=request.POST['phone'], password=request.POST['code'])
+            print(user)
+            user = authenticate(request, username=request.POST['phone'], password=request.POST['code'])
+            print(user)
+            if user is not None:
+                login(request, user)
         else:
             return redirect('start_page')
-    return redirect('lk', request.POST['phone'])
+    return redirect('lk')
 
 
-def profile(request, phone):
-    user = User.objects.get(phone=phone)
+def logout_view(request):
+    logout(request)
 
-    return render(request, 'lk.html', {'user': user})
+    return redirect('start_page')
+
+
+def profile(request):
+
+    return render(request, 'lk.html')
 
 
 @transaction.atomic
