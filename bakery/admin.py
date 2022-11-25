@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User, Order, OrderCake
+from .models import User, Order, OrderCake, Payment
 
 
 @admin.register(User)
@@ -15,4 +15,9 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(OrderCake)
 class OrderCakeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
     pass
