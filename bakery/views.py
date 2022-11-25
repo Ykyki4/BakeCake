@@ -1,13 +1,19 @@
-from django.shortcuts import render, redirect
+import uuid
+from time import sleep
+
+from yookassa import Payment as YooPayment
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db import transaction
 from rest_framework.decorators import api_view
+from phonenumber_field.modelfields import PhoneNumberField
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 
-from .models import User, Order, OrderCake
+from .models import User, Order, OrderCake, Payment
 
 
 class UserSerializer(ModelSerializer):
+    phone = PhoneNumberField(unique=False)
 
     class Meta:
         model = User
@@ -72,7 +78,7 @@ def register_order(request):
         delivcomments=order_serializer.validated_data.get('delivcomments', ''),
         user=user
     )
-    OrderCake.objects.create(
+    cake = OrderCake.objects.create(
         levels=cake_serializer.validated_data['levels'],
         form=cake_serializer.validated_data['form'],
         topping=cake_serializer.validated_data['topping'],
@@ -83,6 +89,19 @@ def register_order(request):
         cost=cake_serializer.validated_data['cost'],
         order=order
     )
-    return redirect('start_page')
-    # return Response()
-
+    payment = Payment.objects.create(order=order)
+    yoo_payment = YooPayment.create({
+        'amount': {
+            'value': f'{cake.cost}',
+            'currency': 'RUB'
+        },
+        'confirmation': {
+            'type': 'redirect',
+            'return_url': request.url  # ПОДСТАВИТЬ НОРМАЛЬНУЮ ССЫЛКУ
+        },
+        'capture': True,
+        'description': f'Заказ №{order.id}'
+    }, uuid.uuid4())
+    payment.yookassa_payment_id = yoo_payment.id
+    payment.save()
+    return redirect(yoo_payment.confirmation.confirmation_url)
