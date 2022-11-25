@@ -4,8 +4,8 @@ from .models import User, Order, OrderCake, Payment
 
 
 class CakeInline(admin.TabularInline):
-    model = Order
-    raw_id_fields = ('cake',)
+    model = OrderCake
+    extra = 0
 
 
 @admin.register(User)
@@ -15,12 +15,13 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    pass
+    raw_id_fields = ['user', ]
+    inlines = [CakeInline, ]
 
 
 @admin.register(OrderCake)
 class OrderCakeAdmin(admin.ModelAdmin):
-    inlines = (CakeInline,)
+    pass
 
 
 @admin.register(Payment)
