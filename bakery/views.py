@@ -96,7 +96,7 @@ def register_order(request):
         },
         'confirmation': {
             'type': 'redirect',
-            'return_url': request.url  # ПОДСТАВИТЬ НОРМАЛЬНУЮ ССЫЛКУ
+            'return_url': request.META.get('HTTP_REFERER')
         },
         'capture': True,
         'description': f'Заказ №{order.id}'
