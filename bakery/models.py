@@ -142,7 +142,7 @@ class Payment(models.Model):
     )
     created_at = models.DateTimeField(
         'Создан в',
-        default=timezone.now(),
+        default=timezone.now,
     )
     yookassa_payment_id = models.CharField(
         'ID платежа Юкасса',
