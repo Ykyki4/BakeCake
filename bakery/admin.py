@@ -26,7 +26,7 @@ class OrderCakeAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ['yookassa_payment_id', ]
 
 
 
