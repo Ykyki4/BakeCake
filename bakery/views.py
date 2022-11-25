@@ -1,5 +1,4 @@
 import uuid
-from time import sleep
 
 from yookassa import Payment as YooPayment
 from django.shortcuts import render, redirect, get_object_or_404
@@ -105,3 +104,19 @@ def register_order(request):
     payment.yookassa_payment_id = yoo_payment.id
     payment.save()
     return redirect(yoo_payment.confirmation.confirmation_url)
+
+
+@api_view(['POST'])
+def payment_update(request):
+    event = request.data.get('event')
+    if event == 'payment.succeeded':
+        status = 'succeeded'
+    elif event == 'payment.canceled':
+        status = 'canceled'
+    elif event == 'payment.waiting_for_capture':
+        status = 'succeeded'
+    else:
+        return Response(status=403)
+    payment = Payment.get(yookassa_payment_id=request.data['object']['id'])
+    payment.status = status
+    return Response()
