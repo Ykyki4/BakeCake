@@ -6,7 +6,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class User(models.Model):
     name = models.CharField('Имя', max_length=25, blank=True)
-    phone = PhoneNumberField(verbose_name='Номер телефона', unique=True)
+    phone = PhoneNumberField(verbose_name='Номер телефона')
     email = models.EmailField(verbose_name='Электронная почта', blank=True)
 
     class Meta:
@@ -125,6 +125,7 @@ class OrderCake(models.Model):
 
 
 class Payment(models.Model):
+    PENDING = 'pending'
     WAITING = 'waiting'
     SUCCEEDED = 'succeeded'
     CANCELED = 'canceled'
@@ -143,11 +144,16 @@ class Payment(models.Model):
         'Создан в',
         default=timezone.now(),
     )
+    yookassa_payment_id = models.CharField(
+        'ID платежа Юкасса',
+        max_length=80,
+        blank=True
+    )
     status = models.CharField(
         'Статус заказа',
         max_length=20,
         choices=STATUSES,
-        default=WAITING,
+        default=PENDING,
         db_index=True,
     )
 
