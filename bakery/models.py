@@ -147,7 +147,7 @@ class OrderCake(models.Model):
         Order,
         on_delete=models.CASCADE,
         verbose_name='Заказ',
-        related_name='cake'
+        related_name='cakes'
     )
 
     class Meta:
