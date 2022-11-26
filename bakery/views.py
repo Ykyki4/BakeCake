@@ -4,20 +4,21 @@ from yookassa import Payment as YooPayment
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import transaction
 from rest_framework.decorators import api_view
-from phonenumber_field.modelfields import PhoneNumberField
+from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework.response import Response
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Serializer, CharField, EmailField
 from django.contrib.auth import authenticate, login, logout
 
 
 from .models import User, Order, OrderCake, Payment
 
 
-class UserSerializer(ModelSerializer):
-    phone = PhoneNumberField(unique=False)
+class UserSerializer(Serializer):
+    name = CharField(max_length=100)
+    email = EmailField()
+    phone = PhoneNumberField()
 
     class Meta:
-        model = User
         fields = ['name', 'phone', 'email']
 
 
@@ -82,13 +83,16 @@ def register_order(request):
     order_serializer.is_valid(raise_exception=True)
     user_serializer = UserSerializer(data=request_payload)
     user_serializer.is_valid(raise_exception=True)
-    user, _ = User.objects.get_or_create(
-        phone=user_serializer.validated_data['phone'],
-        defaults={
-            'name': user_serializer.validated_data['name'],
-            'email': user_serializer.validated_data['email'],
-        },
-    )
+    user = request.user
+    if not user:
+        user, _ = User.objects.get_or_create(
+            phone=user_serializer.validated_data['phone'],
+            defaults={
+                'name': user_serializer.validated_data['name'],
+                'email': user_serializer.validated_data['email'],
+                'password': 1234
+            },
+        )
     order, _ = Order.objects.get_or_create(
         address=order_serializer.validated_data['address'],
         date=order_serializer.validated_data['date'],

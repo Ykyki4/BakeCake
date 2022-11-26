@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return str(self.phone)
+        return f'{self.name} {self.phone}'
 
 
 class Order(models.Model):
