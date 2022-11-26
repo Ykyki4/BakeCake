@@ -83,13 +83,16 @@ def register_order(request):
     order_serializer.is_valid(raise_exception=True)
     user_serializer = UserSerializer(data=request_payload)
     user_serializer.is_valid(raise_exception=True)
-    user, _ = User.objects.get_or_create(
-        phone=user_serializer.validated_data['phone'],
-        defaults={
-            'name': user_serializer.validated_data['name'],
-            'email': user_serializer.validated_data['email'],
-        },
-    )
+    user = request.user
+    if not user:
+        user, _ = User.objects.get_or_create(
+            phone=user_serializer.validated_data['phone'],
+            defaults={
+                'name': user_serializer.validated_data['name'],
+                'email': user_serializer.validated_data['email'],
+                'password': 1234
+            },
+        )
     order, _ = Order.objects.get_or_create(
         address=order_serializer.validated_data['address'],
         date=order_serializer.validated_data['date'],
