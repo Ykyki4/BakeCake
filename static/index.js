@@ -1,4 +1,4 @@
-Vue.createApp({
+var vm1 = Vue.createApp({
     name: "App",
     components: {
         VForm: VeeValidate.Form,
