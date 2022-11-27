@@ -139,7 +139,7 @@
 
 			{% if not orders %}
 				<span class="cake_grey">У вас еще нет заказов.</span>
-				<p class="cake_grey">Вы можете добавить торт из <a href="./index.html#step2" class="text-decoration-none cake_pink">Каталога</a> или <a href="./index.html#step3" class="text-decoration-none cake_pink">Создать свой</a>.</p>
+				<p class="cake_grey">Вы можете добавить торт из <a href="{% url 'start_page' %}#step2" class="text-decoration-none cake_pink">Каталога</a> или <a href="{% url 'start_page' %}#step3" class="text-decoration-none cake_pink">Создать свой</a>.</p>
 			{% else %}
 				{% for order in orders %}
 					<section class="my-2">

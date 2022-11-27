@@ -321,21 +321,9 @@
 					<input v-model="Words" type="text" name="words">
 					<input v-model="Comments" type="text" name="comments">
 					<input v-model="Cost" type="int" name="cost" value=Cost>
-					{% if not user.name %}
-						<input v-model="Name" type="text" name="name">
-					{% else %}
-						<input v-model="Name" type="text" name="name" value={{user.name}}>
-					{% endif %}
-					{% if not user.phone %}
-						<input v-model="Phone" type="tel" name="phone">
-					{% else %}
-						<input v-model="Phone" type="tel" name="phone" value={{user.phone}}>
-					{% endif %}
-					{% if not user.email %}
-						<input v-model="Email" type="email" name="email">
-					{% else %}
-						<input v-model="Email" type="email" name="email" value={{user.email}}>
-					{% endif %}
+					<input v-model="Name" type="text" name="name">
+					<input v-model="Phone" type="tel" name="phone">
+					<input v-model="Email" type="email" name="email">
 					<input v-model="Address" type="text" name="address">
 					<input v-model="Dates" type="date" name="date">
 					<input v-model="Time" type="time" name="time">
@@ -368,44 +356,32 @@
 
 							<div class="col-6 col-lg-4 d-flex flex-column">
 								{% if not user.name %}
-									<div class="position-relative pb-1">
-										<v-field v-model="Name" :class="Name ? 'cake__border_blue': ''" type="text" name="name" id="name" placeholder="Введите ваше имя" class="form-control my-3 cake__textinput"></v-field>
-										<v-field v-model="Name" type="text" name="name_format" class="d-none"></v-field>
-										<error-message name="name_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
-									</div>
+								<div class="position-relative pb-1">
 								{% else %}
-									<div class="position-relative pb-1" style="display:none">
-										<v-field v-model="Name" :class="Name ? 'cake__border_blue': ''" type="text" name="name" id="name" placeholder="Введите ваше имя" class="form-control my-3 cake__textinput" value="{{user.name}}"></v-field>
-										<v-field v-model="Name" type="text" name="name_format" class="d-none" value="{{user.name}}"></v-field>
-										<error-message name="name_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
-									</div>
+								<div class="position-relative pb-1" style="display: none;">
 								{% endif %}
+									<v-field v-model="Name" :class="Name ? 'cake__border_blue': ''" type="text" name="name" id="name" placeholder="Введите ваше имя" class="form-control my-3 cake__textinput"></v-field>
+									<v-field v-model="Name" type="text" name="name_format" class="d-none" ></v-field>
+									<error-message name="name_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+								</div>
 								{% if not user.phone %}
-									<div class="position-relative pb-1">
-										<v-field v-model="Phone" :class="Phone ? 'cake__border_blue': ''" type="tel" name="phone" id="phone" placeholder="Введите номер" class="form-control my-3 cake__textinput"></v-field>
-										<v-field v-model="Phone" type="phone" name="phone_format" class="d-none"></v-field>
-										<error-message name="phone_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
-									</div>
+								<div class="position-relative pb-1">
 								{% else %}
-									<div class="position-relative pb-1"  style="display:none">
-										<v-field v-model="Phone" :class="Phone ? 'cake__border_blue': ''" type="tel" name="phone" id="phone" placeholder="Введите номер" class="form-control my-3 cake__textinput" value="{{user.phone}}"></v-field>
-										<v-field v-model="Phone" type="phone" name="phone_format" class="d-none" value="{{user.phone}}"></v-field>
-										<error-message name="phone_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
-									</div>
+								<div class="position-relative pb-1"  style="display: none;">
 								{% endif %}
+									<v-field v-model="Phone" :class="Phone ? 'cake__border_blue': ''" type="tel" name="phone" id="phone" placeholder="Введите номер" class="form-control my-3 cake__textinput"></v-field>
+									<v-field v-model="Phone" type="phone" name="phone_format" class="d-none"></v-field>
+									<error-message name="phone_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+								</div>
 								{% if not user.email %}
-									<div class="position-relative pb-1">
-										<v-field v-model="Email" :class="Email ? 'cake__border_blue': ''" type="email" name="email" id="email" placeholder="Введите почту" class="form-control my-3 cake__textinput"></v-field>
-										<v-field v-model="Email" type="email" name="email_format" class="d-none"></v-field>
-										<error-message name="email_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
-									</div>
+								<div class="position-relative pb-1">
 								{% else %}
-									<div class="position-relative pb-1" style="display:none">
-										<v-field v-model="Email" :class="Email ? 'cake__border_blue': ''" type="email" name="email" id="email" placeholder="Введите почту" class="form-control my-3 cake__textinput" value="{{user.email}}"></v-field>
-										<v-field v-model="Email" type="email" name="email_format" class="d-none" value="{{user.email}}"></v-field>
-										<error-message name="email_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
-									</div>
+								<div class="position-relative pb-1" style="display: none;">
 								{% endif %}
+									<v-field v-model="Email" :class="Email ? 'cake__border_blue': ''" type="email" name="email" id="email" placeholder="Введите почту" class="form-control my-3 cake__textinput"></v-field>
+									<v-field v-model="Email" type="email" name="email_format" class="d-none"></v-field>
+									<error-message name="email_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+								</div>
 							</div>
 							{% verbatim %}
 								<div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-end">
@@ -502,5 +478,14 @@
 
 <script src='{% static "index.js" %}'></script>
 <script src='{% static "registration.js" %}'></script>
+<script>
+
+setTimeout(function() {
+	vm1.Phone = "+" + {{user.phone}};
+	vm1.Name = "{{user.name}}";
+	vm1.Email = "{{user.email}}";
+}, 0);
+
+</script>
 </body>
 </html>
